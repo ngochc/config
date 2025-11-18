@@ -93,4 +93,13 @@ vim.o.scrolloff = 10
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = '→·',
+  trail = '·',
+  extends = '>',
+  precedes = '<',
+  nbsp = '␣',
+  eol = '↲', -- optional
+}
 -- vim: ts=2 sts=2 sw=2 et

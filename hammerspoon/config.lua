@@ -1,5 +1,5 @@
 local hyper = { "ctrl", "alt", "cmd", "shift" }
-local GAP = 8
+local GAP = 1
 
 local function screenFrame(win)
 	local s = win:screen():frame()
