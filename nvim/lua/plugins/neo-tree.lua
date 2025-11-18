@@ -11,6 +11,7 @@ return {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+    close_if_last_window = true, -- don't leave Neo-tree as a full-screen window
     filesystem = {
       hijack_netrw_behavior = 'disabled', -- Let Oil handle directory buffers
       filtered_items = {
