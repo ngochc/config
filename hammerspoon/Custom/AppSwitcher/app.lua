@@ -7,7 +7,7 @@
 ---@field onTrigger function
 
 local config = require("config")
-local defaultMod = config.defaultMod or config.hyper
+local defaultMod = config.defaultMod
 
 local App = {
     hotkey = "",
@@ -18,9 +18,11 @@ function App:new(o)
     setmetatable(o, self)
     self.__index = self
 
-    o.directBinding = hs.hotkey.bind(defaultMod, o.hotkey, function()
-        o:activate()
-    end)
+	if defaultMod then
+		o.directBinding = hs.hotkey.bind(defaultMod, o.hotkey, function()
+			o:activate()
+		end)
+	end
 
     o.singleKeyBinding = hs.hotkey.new(nil, o.hotkey, function()
         o:activate()
@@ -55,8 +57,12 @@ function App:activate()
 end
 
 function App:destroy()
-    self.singleKeyBinding:delete()
-    self.directBinding:delete()
+	if self.singleKeyBinding then
+		self.singleKeyBinding:delete()
+	end
+	if self.directBinding then
+		self.directBinding:delete()
+	end
 end
 
 function App:getUI(x, y, w, h)

@@ -17,7 +17,7 @@ end
 
 return {
 	hyper = hyper,
-	defaultMod = hyper,
+	defaultMod = nil, -- leave nil to avoid automatic per-app Hyper bindings
 	GAP = GAP,
 	screenFrame = screenFrame,
 	moveFrac = moveFrac,

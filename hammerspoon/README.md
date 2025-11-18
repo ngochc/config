@@ -1,103 +1,86 @@
 # Hammerspoon Configuration
 
-This Hammerspoon configuration provides an AltTab replacement and Rectangle-style window management with cycling capabilities.
+Opinionated Hyper-key workflow for macOS built with Hammerspoon. Includes a custom `⌥ Tab` switcher, window management shortcuts, a visual grid overlay, and a quick app launcher.
 
-## File Structure
+## File Layout
 
-The configuration is organized into multiple files by category:
+| File | Description |
+| --- | --- |
+| `init.lua` | Entry point that loads every module |
+| `config.lua` | Shared settings (Hyper key = `⌃⌥⌘⇧`, 8 px gap, helper fns) |
+| `app-switcher.lua` + `Custom/AppSwitcher/app.lua` | Canvas-based AltTab replacement |
+| `window-basic.lua` | Halves / maximize / center |
+| `window-display.lua` | Move windows between monitors |
+| `window-grid.lua` | Show `hs.grid` overlay |
+| `app-launcher.lua` | Hyper-key launcher for favorite apps |
 
-- **`init.lua`** - Main entry point that loads all modules
-- **`config.lua`** - Shared configuration (hyper key, GAP, utility functions)
-- **`app-switcher.lua`** - AltTab replacement functionality
-- **`window-basic.lua`** - Basic window management (halves, corners, maximize, center)
-- **`window-display.lua`** - Display movement between screens
-- **`window-cycling.lua`** - Thirds cycling (horizontal and vertical)
-- **`window-grid.lua`** - Visual grid overlay
-- **`app-launcher.lua`** - App launcher/focus shortcuts
+Reload the config via the Hammerspoon menu-bar icon after edits.
 
-## Window Switching (AltTab Replacement)
+## Custom App Switcher (`⌥ Tab`)
 
-### Application Switching
-- **⌘ ⇧ Tab** - Switch to previous application window
-- **⌥ Tab** - Switch to next application window
-- **⌥ ⇧ Tab** - Switch to previous application window
+- Dedicated hotkey: `⌥ Tab` (no need to touch macOS `⌘ Tab`)
+- Dimmed background + centered strip of app cards showing icon + letter
+- Tap the highlighted letter to focus that app (letters auto-assigned)
+- `Esc` dismisses the switcher
+- Uses `hs.application.watcher` to stay in sync as apps launch/quit
+- **No Hyper key bindings** are created—only on-screen single-letter keys
 
-**Note:** ⌘ Tab is commented out in the config (to keep macOS's default switcher). Within-app window cycling (⌘`) is also commented out.
+## Window Management (`window-basic.lua`)
 
-## Window Management
+All shortcuts use the Hyper chord (`⌃⌥⌘⇧`). Windows respect an 8 px inset from screen edges.
 
-All window management shortcuts use **⌃ ⌥ ⌘ ⇧** (Control + Option + Command + Shift) as the modifier key (Hyper key).
+| Hotkey | Action |
+| --- | --- |
+| Hyper + **H** | Left half |
+| Hyper + **L** | Right half |
+| Hyper + **J** | Maximize (usable frame) |
+| Hyper + **K** | Center (~62% width) |
 
-### Halves
-- **⌃ ⌥ ⌘ ⇧ ←** - Move window to left half
-- **⌃ ⌥ ⌘ ⇧ →** - Move window to right half
-- **⌃ ⌥ ⌘ ⇧ ↑** - Move window to top half
-- **⌃ ⌥ ⌘ ⇧ ↓** - Move window to bottom half
+## Displays (`window-display.lua`)
 
-### Corners
-- **⌃ ⌥ ⌘ ⇧ U** - Move window to top-left corner (quarter)
-- **⌃ ⌥ ⌘ ⇧ I** - Move window to top-right corner (quarter)
-- **⌃ ⌥ ⌘ ⇧ J** - Move window to bottom-left corner (quarter)
-- **⌃ ⌥ ⌘ ⇧ K** - Move window to bottom-right corner (quarter)
+| Hotkey | Action |
+| --- | --- |
+| Hyper + **,** (physical **<**) | Move window to the next display |
+| Hyper + **.** (physical **>**) | Move window to the previous display |
 
-### Maximize & Center
-- **⌃ ⌥ ⌘ ⇧ Return** - Maximize window (with 8px gap)
-- **⌃ ⌥ ⌘ ⇧ C** - Center window (62% of screen size)
+No animation; window size/position are preserved per monitor.
 
-### Display Movement
-- **⌃ ⌥ ⌘ ⇧ →** - Move window to next display
-- **⌃ ⌥ ⌘ ⇧ ←** - Move window to previous display
+## Visual Grid (`window-grid.lua`)
 
-**Note:** These bindings override the left/right halves functionality.
+| Hotkey | Action |
+| --- | --- |
+| Hyper + **M** | Toggle `hs.grid` (6×4 grid, 8 px margins) |
 
-### Thirds Cycling (Horizontal)
+Great for precise tiling when halves/center aren’t enough.
 
-These shortcuts cycle through different window sizes when pressed repeatedly within 600ms:
+## App Launcher (`app-launcher.lua`)
 
-#### Left Side Cycling (⌃ ⌥ ⌘ ⇧ H)
-1. **First press**: Left third (1/3 width)
-2. **Second press** (within 600ms): Left two-thirds (2/3 width)
-3. **Third press** (within 600ms): Left half (1/2 width)
-4. **Fourth press** (within 600ms): Resets to left third
+Manual bindings for daily drivers:
 
-#### Right Side Cycling (⌃ ⌥ ⌘ ⇧ L)
-1. **First press**: Right third (1/3 width)
-2. **Second press** (within 600ms): Right two-thirds (2/3 width)
-3. **Third press** (within 600ms): Right half (1/2 width)
-4. **Fourth press** (within 600ms): Resets to right third
+| Hotkey | App |
+| --- | --- |
+| Hyper + **A** | Visual Studio Code |
+| Hyper + **S** | Slack |
+| Hyper + **D** | Google Chrome |
+| Hyper + **F** | WezTerm |
+| Hyper + **G** | Safari |
+| Hyper + **V** | IntelliJ IDEA |
 
-### Thirds Cycling (Vertical)
+These use `hs.application.launchOrFocus`, so they open the app if needed or focus it if already running. Feel free to change the letters/apps in `app-launcher.lua`.
 
-#### Top Cycling (⌃ ⌥ ⌘ ⇧ T) - **DISABLED** (T is now used for Safari)
-1. **First press**: Top third (1/3 height)
-2. **Second press** (within 600ms): Top two-thirds (2/3 height)
-3. **Third press** (within 600ms): Top half (1/2 height)
-4. **Fourth press** (within 600ms): Resets to top third
+## Behavior Notes
 
-#### Bottom Cycling (⌃ ⌥ ⌘ ⇧ B)
-1. **First press**: Bottom third (1/3 height)
-2. **Second press** (within 600ms): Bottom two-thirds (2/3 height)
-3. **Third press** (within 600ms): Bottom half (1/2 height)
-4. **Fourth press** (within 600ms): Resets to bottom third
+- Hyper key lives in `config.lua` (`{ "ctrl","alt","cmd","shift" }`)
+- `GAP` determines padding from screen edges (default 8 px)
+- App switcher auto-hides after 3 seconds if no selection is made
+- `hs.hotkey.getHotkeys()` should only list the bindings in this README; if you see others, another tool (e.g., Karabiner) is also mapping keys
+- Requires Hammerspoon with Accessibility permissions
 
-### Visual Grid
-- **⌃ ⌥ ⌘ ⇧ G** - Show visual grid overlay (6x4 grid with 8px margins)
+## Customize / Troubleshoot
 
-## App Launcher / Focus
+- Change launcher targets or keys in `app-launcher.lua`
+- Style the switcher in `Custom/AppSwitcher/app.lua`
+- Resize the grid in `window-grid.lua`
+- If `⌥ Tab` stops working, reload the config and check the console (`⌘4`) for errors
 
-All app shortcuts use **⌃ ⌥ ⌘ ⇧** (Hyper key) as the modifier.
-
-- **⌃ ⌥ ⌘ ⇧ Q** - Launch/Focus WezTerm
-- **⌃ ⌥ ⌘ ⇧ W** - Launch/Focus Slack
-- **⌃ ⌥ ⌘ ⇧ E** - Launch/Focus IntelliJ IDEA
-- **⌃ ⌥ ⌘ ⇧ R** - Launch/Focus Google Chrome
-- **⌃ ⌥ ⌘ ⇧ T** - Launch/Focus Safari
-
-**Note:** The top cycling shortcut (Hyper + T) has been disabled to make room for the Safari shortcut.
-
-## Notes
-
-- All window movements respect an 8px gap from screen edges
-- Cycling shortcuts reset to the first state if more than 600ms passes between presses
-- Window switcher shows thumbnails (160px) and titles with a semi-transparent overlay
-- App shortcuts will launch the app if not running, or focus it if already running
+Enjoy the setup—and tweak to match your workflow! 🚀

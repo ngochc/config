@@ -9,7 +9,6 @@ local moveFrac = config.moveFrac
 local focused = config.focused
 local screenFrame = config.screenFrame
 
--- Halves (Hyper+Arrows)
 hs.hotkey.bind(hyper, "H", function()
 	local w = focused()
 	if w then
@@ -23,7 +22,6 @@ hs.hotkey.bind(hyper, "L", function()
 	end
 end)
 
--- Maximize / Center (Hyper+Return / Hyper+C)
 hs.hotkey.bind(hyper, "J", function()
 	local w = focused()
 	if not w then
