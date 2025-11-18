@@ -1,0 +1,1 @@
+ln -s ~/.config/hammerspoon ~/.hammerspoon

@@ -1,0 +1,1 @@
+{"title":"Change mute to next screen","rules":[{"description":"","manipulators":[{"type":"basic","from":{"consumer_key_code":"mute"},"to":[{"repeat":false,"modifiers":["left_gui","left_alt","left_control"],"key_code":"right_arrow"},{"repeat":true}]}]}]}

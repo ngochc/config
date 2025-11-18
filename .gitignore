@@ -1,0 +1,28 @@
+# Ignore everything by default
+*
+
+# But allow these tool configurations
+!wezterm/
+!wezterm/**
+
+!karabiner/
+!karabiner/**
+
+!nvim/
+!nvim/**
+
+!hammerspoon/
+!hammerspoon/**
+
+# Allow .gitignore itself
+!.gitignore
+
+# Neovim specific ignores (from nvim/.gitignore)
+nvim/tags
+nvim/test.sh
+nvim/.luarc.json
+nvim/nvim
+nvim/spell/
+nvim/lazy-lock.json
+nvim/.tool-versions
+
