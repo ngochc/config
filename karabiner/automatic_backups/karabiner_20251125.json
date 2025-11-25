@@ -857,9 +857,7 @@
                     }
                 ]
             },
-            "name": "Cornix",
-            "selected": true,
-            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
+            "name": "New profile"
         },
         {
             "complex_modifications": {
@@ -50324,6 +50322,7 @@
                 }
             ],
             "name": "rainy75",
+            "selected": true,
             "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
